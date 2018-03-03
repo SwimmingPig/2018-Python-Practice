@@ -1,3 +1,5 @@
+import sys
+sys.path.append('/usr/local/lib/python2.7/site-packages')
 import cv2
 
 from styler.utils import resize
@@ -28,9 +30,19 @@ class Video:
         '''
         frames = []
         # 5-1 /5-2 Read video and collect them
+        success,image = self.cap.read()
+        count = 0
+        success = True
+        while success:
+            image2 = cv2.resize(image, (image_h, image_w))
+            frames.append(image2)
+            success, image = self.cap.read()
 
-        self.frames = ...  # 5-3 let object have the result
-        return ...  # return your results
+            print ('Read a new frame: ', success , count)
+            count += 1
+
+        self.frames = frames  # 5-3 let object have the result
+        return frames  # return your results
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.cap.release()
